@@ -36,7 +36,7 @@ body::before{
     z-index:0;
 }
 
-/* background particles */
+/* particles */
 #particles{
     position:fixed;
     inset:0;
@@ -57,7 +57,7 @@ body::before{
     filter:drop-shadow(0 0 14px rgba(255,80,120,1));
 }
 
-/* lamps container */
+/* lamps wrapper */
 .lamps-wrap{
     position:fixed;
     inset:0;
@@ -74,6 +74,13 @@ body::before{
     height:460px;
     cursor:pointer;
     pointer-events:auto;
+
+    /* REMOVE MOBILE BLUE TAP */
+    -webkit-tap-highlight-color: transparent;
+    -webkit-touch-callout: none;
+    user-select: none;
+    touch-action: manipulation;
+    outline: none;
 }
 
 .lamp-left{ left:6%; }
@@ -123,7 +130,7 @@ body::before{
     line-height:.95;
 }
 
-/* valentine counter */
+/* valentine */
 .valentine{
     position:fixed;
     top:20px;
@@ -143,7 +150,7 @@ body::before{
     margin-top:4px;
 }
 
-/* order button */
+/* order */
 .order-btn{
     position:fixed;
     bottom:30px;
@@ -165,7 +172,7 @@ body::before{
     transform:translateX(-50%) scale(1.08);
 }
 
-/* ===== MOBILE FIX ===== */
+/* ===== MOBILE LAYOUT ===== */
 @media (max-width:768px){
     .lamps-wrap{
         position:relative;
@@ -231,7 +238,7 @@ body::before{
     <h1>Love Travels The Distance.</h1>
 </section>
 
-<button class="order-btn" onclick="window.open('https://www.instagram.com/lovetouchlamp/','_blank')">
+<button class="order-btn" onclick="window.open('https://www.instagram.com/YOUR_PAGE_HERE','_blank')">
 💖 Order on Instagram
 </button>
 
@@ -257,7 +264,7 @@ function startGlow(img,color,intensity,flicker){
     });
 }
 
-/* apply mode to ONE lamp */
+/* apply mode */
 function applyModeTo(side){
     const m=modes[modeIndex];
     document.querySelectorAll(`[id^="${side}-"]`).forEach(i=>{
@@ -319,19 +326,19 @@ document.querySelectorAll('.lamp').forEach(lamp=>{
     });
 });
 
-/* ===== VALENTINE COUNTDOWN (FIXED) ===== */
+/* ===== VALENTINE COUNTDOWN ===== */
 const countdownEl=document.getElementById('countdown');
 function updateCountdown(){
     const now=new Date();
     let year=now.getFullYear();
-    let valentine=new Date(year,1,14,0,0,0);
+    let valentine=new Date(year,1,14);
     if(now>valentine){ year++; valentine=new Date(year,1,14); }
     const diff=valentine-now;
     if(diff<=0){ countdownEl.innerText="Today ❤️"; return; }
-    const d=Math.floor(diff/86400000);
-    const h=Math.floor((diff%86400000)/3600000);
-    const m=Math.floor((diff%3600000)/60000);
-    countdownEl.innerText=`${d}d ${h}h ${m}m`;
+    countdownEl.innerText=
+        Math.floor(diff/86400000)+"d "+
+        Math.floor((diff%86400000)/3600000)+"h "+
+        Math.floor((diff%3600000)/60000)+"m";
 }
 updateCountdown();
 setInterval(updateCountdown,1000);
