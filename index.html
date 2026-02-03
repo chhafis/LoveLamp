@@ -36,7 +36,7 @@ body::before{
     z-index:0;
 }
 
-/* particles */
+/* background particles */
 #particles{
     position:fixed;
     inset:0;
@@ -57,7 +57,15 @@ body::before{
     filter:drop-shadow(0 0 14px rgba(255,80,120,1));
 }
 
-/* lamps */
+/* lamps container */
+.lamps-wrap{
+    position:fixed;
+    inset:0;
+    z-index:2;
+    pointer-events:none;
+}
+
+/* lamp */
 .lamp-stage{
     position:fixed;
     top:50%;
@@ -65,8 +73,9 @@ body::before{
     width:360px;
     height:460px;
     cursor:pointer;
-    z-index:2;
+    pointer-events:auto;
 }
+
 .lamp-left{ left:6%; }
 .lamp-right{ right:6%; }
 
@@ -114,18 +123,18 @@ body::before{
     line-height:.95;
 }
 
-/* valentine */
+/* valentine counter */
 .valentine{
     position:fixed;
-    top:30px;
-    right:30px;
+    top:20px;
+    right:20px;
     z-index:6;
     background:rgba(255,255,255,.05);
     backdrop-filter:blur(20px);
-    padding:14px 22px;
+    padding:12px 18px;
     border-radius:16px;
     border:1px solid rgba(255,255,255,.15);
-    font-size:.85rem;
+    font-size:.8rem;
     text-align:center;
 }
 .valentine span{
@@ -134,15 +143,15 @@ body::before{
     margin-top:4px;
 }
 
-/* order */
+/* order button */
 .order-btn{
     position:fixed;
-    bottom:40px;
+    bottom:30px;
     left:50%;
     transform:translateX(-50%);
     z-index:6;
-    padding:16px 42px;
-    font-size:1rem;
+    padding:14px 38px;
+    font-size:.95rem;
     font-weight:600;
     border-radius:100px;
     border:none;
@@ -154,6 +163,33 @@ body::before{
 }
 .order-btn:hover{
     transform:translateX(-50%) scale(1.08);
+}
+
+/* ===== MOBILE FIX ===== */
+@media (max-width:768px){
+    .lamps-wrap{
+        position:relative;
+        display:flex;
+        justify-content:center;
+        gap:16px;
+        height:100vh;
+        align-items:center;
+    }
+    .lamp-stage{
+        position:relative;
+        top:auto;
+        left:auto;
+        right:auto;
+        transform:none;
+        width:150px;
+        height:200px;
+    }
+    .lamp-left,.lamp-right{ left:auto; right:auto; }
+    .location{
+        bottom:-28px;
+        font-size:.65rem;
+        letter-spacing:1px;
+    }
 }
 </style>
 </head>
@@ -168,22 +204,26 @@ body::before{
     <span id="countdown">Loading...</span>
 </div>
 
-<!-- LEFT LAMP -->
-<div class="lamp-stage lamp-left lamp" data-side="left">
-    <img id="left-red" class="lamp-image active" src="https://i.ibb.co/93kdM2zV/red.png">
-    <img id="left-blue" class="lamp-image" src="https://i.ibb.co/WpVf0HDm/blue.png">
-    <img id="left-rainbow" class="lamp-image" src="https://i.ibb.co/99T0r2vS/rainbow.png">
-    <img id="left-candle" class="lamp-image" src="https://i.ibb.co/HpgWn0C1/yellow.png">
-    <div class="location">Kochi, India</div>
-</div>
+<div class="lamps-wrap">
 
-<!-- RIGHT LAMP -->
-<div class="lamp-stage lamp-right lamp" data-side="right">
-    <img id="right-red" class="lamp-image active" src="https://i.ibb.co/93kdM2zV/red.png">
-    <img id="right-blue" class="lamp-image" src="https://i.ibb.co/WpVf0HDm/blue.png">
-    <img id="right-rainbow" class="lamp-image" src="https://i.ibb.co/99T0r2vS/rainbow.png">
-    <img id="right-candle" class="lamp-image" src="https://i.ibb.co/HpgWn0C1/yellow.png">
-    <div class="location">Toronto, Canada</div>
+    <!-- LEFT LAMP -->
+    <div class="lamp-stage lamp-left lamp" data-side="left">
+        <img id="left-red" class="lamp-image active" src="https://i.ibb.co/93kdM2zV/red.png">
+        <img id="left-blue" class="lamp-image" src="https://i.ibb.co/WpVf0HDm/blue.png">
+        <img id="left-rainbow" class="lamp-image" src="https://i.ibb.co/99T0r2vS/rainbow.png">
+        <img id="left-candle" class="lamp-image" src="https://i.ibb.co/HpgWn0C1/yellow.png">
+        <div class="location">Kochi, India</div>
+    </div>
+
+    <!-- RIGHT LAMP -->
+    <div class="lamp-stage lamp-right lamp" data-side="right">
+        <img id="right-red" class="lamp-image active" src="https://i.ibb.co/93kdM2zV/red.png">
+        <img id="right-blue" class="lamp-image" src="https://i.ibb.co/WpVf0HDm/blue.png">
+        <img id="right-rainbow" class="lamp-image" src="https://i.ibb.co/99T0r2vS/rainbow.png">
+        <img id="right-candle" class="lamp-image" src="https://i.ibb.co/HpgWn0C1/yellow.png">
+        <div class="location">Toronto, Canada</div>
+    </div>
+
 </div>
 
 <section class="hero-content">
@@ -191,12 +231,12 @@ body::before{
     <h1>Love Travels The Distance.</h1>
 </section>
 
-<button class="order-btn" onclick="window.open('https://www.instagram.com/YOUR_PAGE_HERE','_blank')">
+<button class="order-btn" onclick="window.open('https://www.instagram.com/lovetouchlamp/','_blank')">
 💖 Order on Instagram
 </button>
 
 <script>
-/* ===== MODES ===== */
+/* ===== LAMP MODES ===== */
 const modes=[
     {id:'red',glow:'rgba(255,40,80,1)',flicker:false},
     {id:'blue',glow:'rgba(0,212,255,1)',flicker:false},
@@ -225,12 +265,9 @@ function applyModeTo(side){
         i.classList.remove('active');
         i.style.filter='';
     });
-
     const img=document.getElementById(`${side}-${m.id}`);
     img.classList.add('active');
-
     startGlow(img,m.glow,m.id==='candle'?45:35,m.flicker);
-
     if(m.id==='rainbow'){
         gsap.to(img,{
             filter:`drop-shadow(0 0 45px ${m.glow}) hue-rotate(360deg)`,
@@ -254,28 +291,14 @@ function flyHeart(fromLamp,toLamp,onArrive){
     const sy=a.top+a.height/2;
     const ex=b.left+b.width/2;
     const ey=b.top+b.height/2;
-
     const cx=(sx+ex)/2;
-    const cy=Math.min(sy,ey)-220;
+    const cy=Math.min(sy,ey)-180;
 
-    gsap.fromTo(heart,{
-        x:sx,y:sy,scale:.6,opacity:1
-    },{
+    gsap.fromTo(heart,{x:sx,y:sy,scale:.6},{
         duration:2,
         scale:1.2,
-        ease:"power1.inOut",
-        motionPath:{
-            path:[
-                {x:sx,y:sy},
-                {x:cx,y:cy},
-                {x:ex,y:ey}
-            ],
-            curviness:1.6
-        },
-        onComplete:()=>{
-            heart.remove();
-            onArrive();
-        }
+        motionPath:{path:[{x:sx,y:sy},{x:cx,y:cy},{x:ex,y:ey}],curviness:1.6},
+        onComplete:()=>{heart.remove();onArrive();}
     });
 }
 
@@ -286,38 +309,32 @@ document.querySelectorAll('.lamp').forEach(lamp=>{
         const now=Date.now();
         if(now-lastTap<350){
             modeIndex=(modeIndex+1)%modes.length;
-
             const side=lamp.dataset.side;
             const otherSide=side==='left'?'right':'left';
             const otherLamp=document.querySelector(`.lamp[data-side="${otherSide}"]`);
-
-            /* immediate change on touched lamp */
             applyModeTo(side);
-
-            /* delayed change on partner lamp */
             flyHeart(lamp,otherLamp,()=>applyModeTo(otherSide));
         }
         lastTap=now;
     });
 });
 
-/* floating */
-gsap.to('.lamp-stage',{y:10,duration:4,repeat:-1,yoyo:true,ease:"sine.inOut"});
-
-/* valentine countdown */
+/* ===== VALENTINE COUNTDOWN (FIXED) ===== */
+const countdownEl=document.getElementById('countdown');
 function updateCountdown(){
-    const n=new Date();
-    const y=n.getMonth()>1?n.getFullYear()+1:n.getFullYear();
-    const v=new Date(y,1,14);
-    const d=v-n;
-    if(d<=0) return countdown.innerText="Today ❤️";
-    countdown.innerText=
-        Math.floor(d/864e5)+"d "+
-        Math.floor(d%864e5/36e5)+"h "+
-        Math.floor(d%36e5/6e4)+"m";
+    const now=new Date();
+    let year=now.getFullYear();
+    let valentine=new Date(year,1,14,0,0,0);
+    if(now>valentine){ year++; valentine=new Date(year,1,14); }
+    const diff=valentine-now;
+    if(diff<=0){ countdownEl.innerText="Today ❤️"; return; }
+    const d=Math.floor(diff/86400000);
+    const h=Math.floor((diff%86400000)/3600000);
+    const m=Math.floor((diff%3600000)/60000);
+    countdownEl.innerText=`${d}d ${h}h ${m}m`;
 }
-setInterval(updateCountdown,1000);
 updateCountdown();
+setInterval(updateCountdown,1000);
 
 /* particles */
 const c=document.getElementById('particles'),ctx=c.getContext('2d');
