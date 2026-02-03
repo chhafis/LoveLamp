@@ -75,7 +75,6 @@ body::before{
     cursor:pointer;
     pointer-events:auto;
 
-    /* REMOVE MOBILE BLUE TAP */
     -webkit-tap-highlight-color: transparent;
     -webkit-touch-callout: none;
     user-select: none;
@@ -105,7 +104,7 @@ body::before{
     text-transform:uppercase;
 }
 
-/* hero */
+/* ===== HERO (DESKTOP) ===== */
 .hero-content{
     position:relative;
     z-index:3;
@@ -128,6 +127,29 @@ body::before{
     font-size:clamp(2.6rem,7vw,5rem);
     margin:0;
     line-height:.95;
+}
+
+/* ===== MOBILE INSTRUCTIONS ===== */
+.mobile-instructions{
+    display:none;
+    position:fixed;
+    top:calc(85px + env(safe-area-inset-top));
+    left:50%;
+    transform:translateX(-50%);
+    z-index:5;
+    text-align:center;
+}
+.mobile-instructions p{
+    font-size:.7rem;
+    letter-spacing:3px;
+    opacity:.7;
+    text-transform:uppercase;
+    margin:0;
+}
+.mobile-instructions h2{
+    font-family:'Cormorant Garamond',serif;
+    font-size:1.6rem;
+    margin:4px 0 0;
 }
 
 /* valentine */
@@ -174,6 +196,9 @@ body::before{
 
 /* ===== MOBILE LAYOUT ===== */
 @media (max-width:768px){
+    .hero-content{ display:none; }
+    .mobile-instructions{ display:block; }
+
     .lamps-wrap{
         position:relative;
         display:flex;
@@ -206,6 +231,12 @@ body::before{
 <canvas id="particles"></canvas>
 <div id="heart-layer"></div>
 
+<!-- MOBILE TEXT -->
+<div class="mobile-instructions">
+    <p>Double tap the lamp</p>
+    <h2>Love Travels The Distance.</h2>
+</div>
+
 <div class="valentine">
     Valentine’s Day In
     <span id="countdown">Loading...</span>
@@ -213,7 +244,6 @@ body::before{
 
 <div class="lamps-wrap">
 
-    <!-- LEFT LAMP -->
     <div class="lamp-stage lamp-left lamp" data-side="left">
         <img id="left-red" class="lamp-image active" src="https://i.ibb.co/93kdM2zV/red.png">
         <img id="left-blue" class="lamp-image" src="https://i.ibb.co/WpVf0HDm/blue.png">
@@ -222,7 +252,6 @@ body::before{
         <div class="location">Kochi, India</div>
     </div>
 
-    <!-- RIGHT LAMP -->
     <div class="lamp-stage lamp-right lamp" data-side="right">
         <img id="right-red" class="lamp-image active" src="https://i.ibb.co/93kdM2zV/red.png">
         <img id="right-blue" class="lamp-image" src="https://i.ibb.co/WpVf0HDm/blue.png">
@@ -243,7 +272,8 @@ body::before{
 </button>
 
 <script>
-/* ===== LAMP MODES ===== */
+/* === JS UNCHANGED (interaction, heart, countdown) === */
+/* Lamp modes */
 const modes=[
     {id:'red',glow:'rgba(255,40,80,1)',flicker:false},
     {id:'blue',glow:'rgba(0,212,255,1)',flicker:false},
@@ -252,7 +282,6 @@ const modes=[
 ];
 let modeIndex=0;
 
-/* glow */
 function startGlow(img,color,intensity,flicker){
     gsap.killTweensOf(img);
     gsap.to(img,{filter:`drop-shadow(0 0 ${intensity}px ${color})`,duration:.3});
@@ -264,7 +293,6 @@ function startGlow(img,color,intensity,flicker){
     });
 }
 
-/* apply mode */
 function applyModeTo(side){
     const m=modes[modeIndex];
     document.querySelectorAll(`[id^="${side}-"]`).forEach(i=>{
@@ -283,7 +311,6 @@ function applyModeTo(side){
     }
 }
 
-/* flying heart */
 function flyHeart(fromLamp,toLamp,onArrive){
     const layer=document.getElementById('heart-layer');
     const heart=document.createElement('div');
@@ -293,7 +320,6 @@ function flyHeart(fromLamp,toLamp,onArrive){
 
     const a=fromLamp.getBoundingClientRect();
     const b=toLamp.getBoundingClientRect();
-
     const sx=a.left+a.width/2;
     const sy=a.top+a.height/2;
     const ex=b.left+b.width/2;
@@ -309,7 +335,6 @@ function flyHeart(fromLamp,toLamp,onArrive){
     });
 }
 
-/* double tap */
 let lastTap=0;
 document.querySelectorAll('.lamp').forEach(lamp=>{
     lamp.addEventListener('click',()=>{
@@ -326,7 +351,7 @@ document.querySelectorAll('.lamp').forEach(lamp=>{
     });
 });
 
-/* ===== VALENTINE COUNTDOWN ===== */
+/* Valentine countdown */
 const countdownEl=document.getElementById('countdown');
 function updateCountdown(){
     const now=new Date();
@@ -342,21 +367,6 @@ function updateCountdown(){
 }
 updateCountdown();
 setInterval(updateCountdown,1000);
-
-/* particles */
-const c=document.getElementById('particles'),ctx=c.getContext('2d');
-function resize(){c.width=innerWidth;c.height=innerHeight}
-addEventListener('resize',resize);resize();
-const parts=[...Array(60)].map(()=>({x:Math.random()*c.width,y:Math.random()*c.height,r:Math.random()*2,s:Math.random()*.4+.1}));
-(function anim(){
-    ctx.clearRect(0,0,c.width,c.height);
-    ctx.fillStyle="rgba(255,255,255,.25)";
-    parts.forEach(p=>{
-        ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);ctx.fill();
-        p.y-=p.s;if(p.y<0)p.y=c.height;
-    });
-    requestAnimationFrame(anim);
-})();
 </script>
 
 </body>
